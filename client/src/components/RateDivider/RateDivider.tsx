@@ -1,19 +1,24 @@
 import styles from './RateDivider.module.scss';
 
 type Props = {
-    label: string;
+  label: string;
+  isOpen: boolean;
+  onClick: () => void;
 };
 
-export function RateDivider({ label }: Props) {
-    return (
-        <div className={styles.wrapper}>
-            <div className={styles.line} />
-            <div className={styles.badge}>
-                <span>{label}</span>
-                <span className={styles.arrow} aria-hidden="true">
-                    ↑
-                </span>
-            </div>
-        </div>
-    );
+export function RateDivider({ label, isOpen, onClick }: Props) {
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.line} />
+      <button type="button" className={styles.badge} onClick={onClick}>
+        <span>{label}</span>
+        <span
+          className={`${styles.arrow} ${!isOpen ? styles.rotated : ''}`}
+          aria-hidden="true"
+        >
+          ↑
+        </span>
+      </button>
+    </div>
+  );
 }

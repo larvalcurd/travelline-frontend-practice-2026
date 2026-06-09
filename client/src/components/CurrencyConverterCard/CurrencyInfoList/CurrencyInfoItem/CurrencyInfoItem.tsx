@@ -7,7 +7,12 @@ type CurrencyInfoItemProps = {
   description: string;
 };
 
-export function CurrencyInfoItem({ title, code, symbol, description }: CurrencyInfoItemProps) {
+export function CurrencyInfoItem({
+  title,
+  code,
+  symbol,
+  description
+}: CurrencyInfoItemProps) {
   return (
     <article className={styles.item}>
       <h3 className={styles.title}>

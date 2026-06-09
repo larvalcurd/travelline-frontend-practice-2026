@@ -5,10 +5,18 @@ type CurrencyInputRowProps = {
   currencyCode: string;
 };
 
-export function CurrencyInputRow({ value, currencyCode }: CurrencyInputRowProps) {
+export function CurrencyInputRow({
+  value,
+  currencyCode
+}: CurrencyInputRowProps) {
   return (
     <div className={styles.row}>
-      <input type="text" className={styles.input} defaultValue={value} readOnly />
+      <input
+        type="text"
+        className={styles.input}
+        defaultValue={value}
+        readOnly
+      />
       <div className={styles.selectWrapper}>
         // список передать в пропсах
         <select className={styles.select} value={currencyCode}>

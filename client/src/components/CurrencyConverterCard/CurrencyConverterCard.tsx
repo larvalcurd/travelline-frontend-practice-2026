@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ConverterForm } from './ConverterForm/ConverterForm';
 import { CurrencyInfoItem } from './CurrencyInfoList/CurrencyInfoItem/CurrencyInfoItem';
 import styles from './CurrencyConverterCard.module.css';
+import { RateDivider } from '../RateDivider/RateDivider';
 
 type CurrencyData = {
   title: string;
@@ -34,27 +35,47 @@ type CurrencyConverterCardProps = {
   toCurrency: string;
 };
 
-export function CurrencyConverterCard() {
+// 1. Принимаем изменяемые данные через props согласно CurrencyConverterCardProps
+export function CurrencyConverterCard({
+  rate,
+  date,
+  fromCurrency,
+  toCurrency
+}: CurrencyConverterCardProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
 
+  const dividerLabel = `${fromCurrency}/${toCurrency}: about`;
+
+  const handleToggleDetails = () => {
+    console.log('Клик сработал! Старое состояние:', isDetailsOpen);
+    setIsDetailsOpen((prev) => {
+      const newState = !prev;
+      console.log('Новое состояние записано в State:', newState);
+      return newState;
+    });
+  };
+
   return (
-    // изменяемые данные передавать с главного компонента
     <main className={styles.card}>
       <section className={styles.headerSection}>
-        <h1 className={styles.mainTitle}>1 Polish zloty is</h1>
-        <p className={styles.result}>0.99 Japanese yen</p>
-        <time className={styles.time}>Fri, 05 Apr 2026 10:35 UTC</time>
+        {/* Изменяемые данные теперь выводятся динамически */}
+        <h1 className={styles.mainTitle}>1 {fromCurrency} is</h1>
+        <p className={styles.result}>
+          {rate} {toCurrency}
+        </p>
+        <time className={styles.time} dateTime={date}>
+          {date}
+        </time>
       </section>
 
       <ConverterForm />
-      // вынести в компонент
-      <div className={styles.dividerContainer}>
-        <hr className={styles.divider} />
-        // сделать, чтобы кнопка работала
-        <button className={styles.toggleButton} onClick={() => setIsDetailsOpen((isDetailsOpen) => !isDetailsOpen)}>
-          PLN/JPY: about {isDetailsOpen ? '↑' : '↓'}
-        </button>
-      </div>
+
+      {/* 2. Вынесли разделитель с кнопкой в отдельный компонент */}
+      <RateDivider
+        label={dividerLabel}
+        isOpen={isDetailsOpen}
+        onClick={handleToggleDetails}
+      />
 
       {isDetailsOpen && (
         <section className={styles.infoSection}>

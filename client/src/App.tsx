@@ -2,7 +2,12 @@ import { CurrencyConverterCard } from './components/CurrencyConverterCard/Curren
 
 const App = () => {
   return (
-    <CurrencyConverterCard />
+    <CurrencyConverterCard
+      rate="0.99"
+      date="Fri, 05 Apr 2026 10:35 UTC"
+      fromCurrency="PLN"
+      toCurrency="JPY"
+    />
   );
 };
 
