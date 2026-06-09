@@ -10,6 +10,7 @@ export function CurrencyInputRow({ value, currencyCode }: CurrencyInputRowProps)
     <div className={styles.row}>
       <input type="text" className={styles.input} defaultValue={value} readOnly />
       <div className={styles.selectWrapper}>
+        // список передать в пропсах
         <select className={styles.select} value={currencyCode}>
           <option value="PLN">PLN</option>
           <option value="JPY">JPY</option>

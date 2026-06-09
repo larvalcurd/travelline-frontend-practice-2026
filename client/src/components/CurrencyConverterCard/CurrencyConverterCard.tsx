@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ConverterForm } from './ConverterForm/ConverterForm';
 import { CurrencyInfoItem } from './CurrencyInfoList/CurrencyInfoItem/CurrencyInfoItem';
 import styles from './CurrencyConverterCard.module.css';
@@ -27,10 +27,18 @@ const CURRENCIES_INFO: CurrencyData[] = [
   }
 ];
 
+type CurrencyConverterCardProps = {
+  rate: string;
+  date: string;
+  fromCurrency: string;
+  toCurrency: string;
+};
+
 export function CurrencyConverterCard() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
 
   return (
+    // изменяемые данные передавать с главного компонента
     <main className={styles.card}>
       <section className={styles.headerSection}>
         <h1 className={styles.mainTitle}>1 Polish zloty is</h1>
@@ -39,10 +47,11 @@ export function CurrencyConverterCard() {
       </section>
 
       <ConverterForm />
-
+      // вынести в компонент
       <div className={styles.dividerContainer}>
         <hr className={styles.divider} />
-        <button className={styles.toggleButton} onClick={() => setIsDetailsOpen(!isDetailsOpen)}>
+        // сделать, чтобы кнопка работала
+        <button className={styles.toggleButton} onClick={() => setIsDetailsOpen((isDetailsOpen) => !isDetailsOpen)}>
           PLN/JPY: about {isDetailsOpen ? '↑' : '↓'}
         </button>
       </div>

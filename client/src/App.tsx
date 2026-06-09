@@ -2,11 +2,7 @@ import { CurrencyConverterCard } from './components/CurrencyConverterCard/Curren
 
 const App = () => {
   return (
-    <>
-    <div style={{ margin: 0, padding: 0 }}>
-      <CurrencyConverterCard />
-      </div>
-    </>
+    <CurrencyConverterCard />
   );
 };
 
