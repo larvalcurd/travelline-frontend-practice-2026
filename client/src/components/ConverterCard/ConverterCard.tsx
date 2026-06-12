@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import type { CurrencyConverterData } from '../../shared/types/currency.tsx';
 import styles from './ConverterCard.module.scss';
 import { PairSummary } from '../PairSummary/PairSummary.tsx';
 import { CurrencyInputRow } from '../CurrencyInputRow/CurrencyInputRow.tsx';
-import { RateDivider } from '../RateDivider/RateDivider.tsx';
 import { MoreAboutPair } from '../MoreAboutPair/MoreAboutPair.tsx';
 
 type Props = {
@@ -21,7 +19,6 @@ export function ConverterCard({
   onToCurrencyChange,
   onSwap
 }: Props) {
-  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
 
   return (
     <section className={styles.Card}>
@@ -53,19 +50,11 @@ export function ConverterCard({
         />
       </div>
 
-      <RateDivider
-        label={data.pairLabel}
-        isOpen={isDetailsOpen}
-        onClick={() => setIsDetailsOpen((prev) => !prev)}
+      <MoreAboutPair
+        key={data.pairLabel}
+        pairLabel={data.pairLabel}
+        infoBlocks={data.infoBlocks}
       />
-
-      {isDetailsOpen && (
-        <MoreAboutPair
-          key={data.pairLabel}
-          pairLabel={`More about ${data.pairLabel}`}
-          infoBlocks={data.infoBlocks}
-        />
-      )}
     </section>
   );
 }
