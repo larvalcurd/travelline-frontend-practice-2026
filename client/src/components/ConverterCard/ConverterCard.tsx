@@ -19,7 +19,6 @@ export function ConverterCard({
   onToCurrencyChange,
   onSwap
 }: Props) {
-
   return (
     <section className={styles.Card}>
       <PairSummary

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import styles from './CurrencyConverterPage.module.scss';
 import { ConverterCard } from '../../components/ConverterCard/ConverterCard';
 import { MOCK_CURRENCIES, MOCK_PRICE_CHANGES } from '../../mocks';
@@ -11,6 +11,7 @@ export function CurrencyConverterPage() {
   const [fromCurrency, setFromCurrency] = useState<string>('PLN');
   const [toCurrency, setToCurrency] = useState<string>('JPY');
   const [amount, setAmount] = useState<string>('1');
+  const [result, setResult] = useState('0.0000');
 
   const currencyOptions: CurrencyOption[] = useMemo(() => {
     return MOCK_CURRENCIES.map((c) => ({
@@ -45,11 +46,17 @@ export function CurrencyConverterPage() {
   const currentRateData = MOCK_PRICE_CHANGES[fromCurrency]?.[toCurrency];
   const rate = currentRateData ? currentRateData.price : 0;
 
-  const calculatedResult = useMemo(() => {
-    const numAmount = parseFloat(amount);
-    if (isNaN(numAmount) || numAmount <= 0) return '0.00';
-    return (numAmount * rate).toFixed(2);
-  }, [amount, rate]);
+  useEffect(() => {
+    const normalizedAmount = amount.replace(',', '.');
+    const numAmount = Number(normalizedAmount);
+
+    if (Number.isNaN(numAmount) || numAmount < 0) {
+      setResult('0.00');
+      return;
+    }
+
+    setResult((numAmount * rate).toFixed(2));
+  }, [amount, fromCurrency, toCurrency, rate]);
 
   const fromInfo = MOCK_CURRENCIES.find((c) => c.code === fromCurrency);
   const toInfo = MOCK_CURRENCIES.find((c) => c.code === toCurrency);
@@ -70,7 +77,7 @@ export function CurrencyConverterPage() {
         options: currencyOptions
       },
       bottomRow: {
-        amount: calculatedResult,
+        amount: result,
         currencyCode: toCurrency,
         options: currencyOptions
       },
@@ -93,7 +100,7 @@ export function CurrencyConverterPage() {
     fromCurrency,
     toCurrency,
     amount,
-    rate,
+    result,
     fromInfo,
     toInfo,
     currentRateData,
