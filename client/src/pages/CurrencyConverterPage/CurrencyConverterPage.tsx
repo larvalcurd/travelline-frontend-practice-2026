@@ -56,39 +56,49 @@ export function CurrencyConverterPage() {
 
   const fallbackDescription = 'No description available for this currency.';
 
-  const uiData: CurrencyConverterData = {
-    headline: `1 ${fromInfo?.name || fromCurrency} is`,
-    result: `${rate} ${toInfo?.name || toCurrency}`,
-    updatedAt: currentRateData
-      ? new Date(currentRateData.dateTime).toUTCString()
-      : 'Unknown date',
-    pairLabel: `${fromCurrency}/${toCurrency}`,
-    topRow: {
-      amount: amount,
-      currencyCode: fromCurrency,
-      options: currencyOptions
-    },
-    bottomRow: {
-      amount: calculatedResult,
-      currencyCode: toCurrency,
-      options: currencyOptions
-    },
-    infoBlocks: [
-      {
-        title: fromInfo?.name || fromCurrency,
-        description: fromInfo?.description || fallbackDescription,
-        code: fromCurrency,
-        symbol: fromInfo?.symbol || 'x'
+  const uiData: CurrencyConverterData = useMemo(() => {
+    return {
+      headline: `1 ${fromInfo?.name || fromCurrency} is`,
+      result: `${rate} ${toInfo?.name || toCurrency}`,
+      updatedAt: currentRateData
+        ? new Date(currentRateData.dateTime).toUTCString()
+        : 'Unknown date',
+      pairLabel: `${fromCurrency}/${toCurrency}`,
+      topRow: {
+        amount: amount,
+        currencyCode: fromCurrency,
+        options: currencyOptions
       },
-      {
-        title: toInfo?.name || toCurrency,
-        description: toInfo?.description || fallbackDescription,
-        code: toCurrency,
-        symbol: toInfo?.symbol || ''
-      }
-    ]
-  };
-
+      bottomRow: {
+        amount: calculatedResult,
+        currencyCode: toCurrency,
+        options: currencyOptions
+      },
+      infoBlocks: [
+        {
+          title: fromInfo?.name || fromCurrency,
+          description: fromInfo?.description || fallbackDescription,
+          code: fromCurrency,
+          symbol: fromInfo?.symbol || 'x'
+        },
+        {
+          title: toInfo?.name || toCurrency,
+          description: toInfo?.description || fallbackDescription,
+          code: toCurrency,
+          symbol: toInfo?.symbol || ''
+        }
+      ]
+    };
+  }, [
+    fromCurrency,
+    toCurrency,
+    amount,
+    rate,
+    fromInfo,
+    toInfo,
+    currentRateData,
+    currencyOptions
+  ]);
   return (
     <main className={styles.page}>
       <ConverterCard
