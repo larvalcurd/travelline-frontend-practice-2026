@@ -20,19 +20,14 @@ it('renders initial state from mocks', async () => {
   const [fromSelect, toSelect] = getCurrencySelects();
   const { editable, readonly } = getAmountInputs();
 
-  // Проверяем, что selects показывают дефолтные валюты
   expect(fromSelect.value).toBe('PLN');
   expect(toSelect.value).toBe('JPY');
 
-  // Проверяем дефолтную сумму
   expect((editable as HTMLInputElement).value).toBe('1');
 
-  // Берём курс прямо из мока
   const rate = MOCK_PRICE_CHANGES['PLN']['JPY'].price;
   const expectedResult = (1 * rate).toFixed(2);
 
-  // waitFor нужен, потому что result обновляется через useEffect
-  // useEffect срабатывает после рендера, а не во время
   await waitFor(() => {
     expect((readonly as HTMLInputElement).value).toBe(expectedResult);
   });
@@ -121,7 +116,6 @@ it('swaps currencies and recalculates result', async () => {
 it('resets MoreAboutPair open state when currency pair changes', async () => {
   render(<CurrencyConverterPage />);
 
-  // Находим кнопку раскрытия блока для текущей пары PLN/JPY
   const toggleButton = screen.getByRole('button', {
     name: /more about pln\/jpy/i
   });
@@ -129,8 +123,6 @@ it('resets MoreAboutPair open state when currency pair changes', async () => {
   // Открываем блок
   fireEvent.click(toggleButton);
 
-  // Проверяем, что описание PLN видно
-  // Берём description прямо из мока, чтобы не хардкодить текст
   const plnDescription = MOCK_CURRENCIES.find(
     (c) => c.code === 'PLN'
   )!.description;
