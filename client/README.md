@@ -1,73 +1,264 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+# Currency Converter
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Учебный проект-конвертер валют на React + TypeScript.  
+Во второй домашней работе реализована логика конвертации на локальных мок-данных без подключения к API.
 
-## React Compiler
+## Как запустить проект
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Установка зависимостей:
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Запуск в режиме разработки:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+Сборка проекта:
+
+```bash
+npm run build
+```
+
+Запуск тестов:
+
+```bash
+npm run test
+```
+
+---
+
+## Что реализовано
+
+Во второй домашней работе реализованы:
+
+- подключение локальных мок-данных с валютами и курсами;
+- состояние конвертера через `useState`:
+  - `fromCurrency`
+  - `toCurrency`
+  - `amount`
+  - `result`
+- пересчёт результата при:
+  - изменении суммы;
+  - изменении валютной пары;
+- защита от выбора одинаковых валют в обоих селектах;
+- кнопка `Swap` для обмена валют местами;
+- блок `More about ...` с динамическим заголовком и описанием выбранных валют;
+- fallback-текст, если у валюты отсутствует описание;
+- reset локального состояния дочернего компонента через `key` при смене валютной пары.
+
+---
+
+## Где лежат мок-данные и как они подключены
+
+Моки находятся в папке:
+
+```text
+src/mocks
+```
+
+Файлы:
+
+- `2_hw_mock_currencies.json`
+- `2_hw_mock_price_changes.json`
+- `index.ts`
+
+Подключение выполнено через `src/mocks/index.ts`:
+
+```ts
+import currenciesRaw from './2_hw_mock_currencies.json';
+import priceChangesRaw from './2_hw_mock_price_changes.json';
+import type { Currency, PriceChangesMock } from '../shared/types/currency';
+
+export const MOCK_CURRENCIES = currenciesRaw as Currency[];
+export const MOCK_PRICE_CHANGES = priceChangesRaw as PriceChangesMock;
+```
+
+### Структура моков
+
+#### Валюты (`Currency[]`)
+
+Каждая валюта содержит:
+
+- `code`
+- `name`
+- `description`
+- `symbol`
+
+#### Курсы (`Record<string, Record<string, PriceChange>>`)
+
+Курсы лежат по схеме:
+
+```ts
+priceChanges[fromCurrency][toCurrency]
+```
+
+Каждый курс содержит:
+
+- `purchasedCurrencyCode`
+- `paymentCurrencyCode`
+- `price`
+- `dateTime`
+
+Для пересчёта конвертации используется поле `price`.
+
+---
+
+## Как устроена логика конвертации
+
+Главная логика находится в:
+
+```text
+src/pages/CurrencyConverterPage/CurrencyConverterPage.tsx
+```
+
+В компоненте страницы хранятся основные состояния:
+
+- выбранная исходная валюта;
+- выбранная целевая валюта;
+- сумма;
+- результат конвертации.
+
+Результат пересчитывается при изменении суммы или пары валют.  
+Для вычисления используется курс из моков по пути:
+
+```ts
+MOCK_PRICE_CHANGES[fromCurrency][toCurrency]
+```
+
+Дополнительно реализованы:
+
+- автоматическая замена одной из валют при совпадении пары;
+- смена направления конвертации через `Swap`;
+- подготовка данных для UI через объект `uiData`.
+
+---
+
+## Где и зачем использован reset по `key`
+
+Reset по `key` используется в компоненте описания валютной пары:
+
+```tsx
+<MoreAboutPair
+  key={data.pairLabel}
+  pairLabel={data.pairLabel}
+  infoBlocks={data.infoBlocks}
+/>
+```
+
+### Зачем это нужно
+
+Компонент `MoreAboutPair` хранит собственное локальное состояние открытия/закрытия.  
+При смене валютной пары нужно сбросить это состояние к начальному значению.
+
+Для этого используется `key`:
+
+- при изменении пары меняется `pairLabel`;
+- вместе с ним меняется `key`;
+- React размонтирует старый компонент и монтирует новый;
+- локальное состояние дочернего компонента автоматически сбрасывается.
+
+Это удобный способ сбросить внутренний `state` дочернего компонента без дополнительных reset-пропсов.
+
+---
+
+## Тесты
+
+Тесты написаны с использованием:
+
+- `Vitest`
+- `React Testing Library`
+- `jsdom`
+- `@testing-library/jest-dom`
+
+Файл с тестами:
+
+```text
+src/pages/CurrencyConverterPage/CurrencyConverterPage.test.tsx
+```
+
+Файл настройки тестового окружения:
+
+```text
+src/test/setup.ts
+```
+
+В setup подключены матчеры `jest-dom` и очистка DOM после каждого теста:
+
+```ts
+import '@testing-library/jest-dom/vitest';
+import { afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+
+afterEach(() => {
+  cleanup();
+});
+```
+
+### Какие сценарии покрыты тестами
+
+Покрываются следующие сценарии:
+
+1. **Рендер начального состояния из моков**
+   - отображаются оба селекта;
+   - отображается поле ввода суммы;
+   - отображается поле результата;
+   - значения по умолчанию берутся из моков.
+
+2. **Пересчёт результата при изменении суммы**
+   - при вводе нового значения в поле суммы результат автоматически пересчитывается.
+
+3. **Пересчёт результата при изменении валютной пары**
+   - при выборе другой исходной валюты применяется новый курс из моков.
+
+4. **Запрет на одинаковые валюты в паре**
+   - если пользователь выбирает одинаковую валюту в обоих селектах, приложение автоматически подставляет первую доступную отличающуюся валюту.
+
+5. **Работа кнопки `Swap`**
+   - валюты меняются местами;
+   - результат пересчитывается по новому направлению курса.
+
+6. **Reset дочернего состояния по `key`**
+   - при смене валютной пары компонент `MoreAboutPair` перемонтируется;
+   - локальное состояние открытия/закрытия сбрасывается;
+   - ранее открытый блок описания не сохраняет старое состояние.
+
+### Что именно тестируется технически
+
+Тесты имеют интеграционный характер: рендерится вся страница `CurrencyConverterPage`, а взаимодействие проверяется через пользовательские действия:
+
+- `render(...)` — рендер компонента;
+- `screen.getByRole(...)` — поиск кнопок и селектов;
+- `screen.getByLabelText(...)` — поиск полей по `aria-label`;
+- `fireEvent.change(...)` — ввод значения или смена option в select;
+- `fireEvent.click(...)` — клик по кнопке;
+- `waitFor(...)` — ожидание обновления UI после изменения состояния.
+
+---
+
+## Структура проекта
+
+```text
+src
+├── app
+├── components
+├── mocks
+├── pages
+├── shared
+│   └── types
+└── test
+```
+
+### Основные части
+
+- `src/shared/types` — TypeScript-типы данных;
+- `src/mocks` — локальные моки валют и курсов;
+- `src/components` — UI-компоненты;
+- `src/pages` — страница конвертера с основной логикой;
+- `src/test` — настройка тестового окружения.
+
