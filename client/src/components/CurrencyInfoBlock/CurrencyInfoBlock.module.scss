@@ -1,0 +1,19 @@
+.block {
+  display: grid;
+  gap: 6px;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #111;
+}
+
+.description {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.25;
+  color: #6d7178;
+}
