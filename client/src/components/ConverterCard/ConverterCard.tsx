@@ -20,7 +20,7 @@ export const ConverterCard = ({
   onSwap
 }: ConverterCardProps) => {
   return (
-    <section className={styles.Card}>
+    <section className={styles.card}>
       <PairSummary
         headline={data.headline}
         result={data.result}

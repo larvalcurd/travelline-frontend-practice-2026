@@ -6,7 +6,11 @@ type PairSummaryProps = {
   updatedAt: string;
 };
 
-export const PairSummary = ({ headline, result, updatedAt }: PairSummaryProps) => {
+export const PairSummary = ({
+  headline,
+  result,
+  updatedAt
+}: PairSummaryProps) => {
   return (
     <header className={styles.summary}>
       <p className={styles.headline}>{headline}</p>

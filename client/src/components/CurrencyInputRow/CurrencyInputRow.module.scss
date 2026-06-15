@@ -2,7 +2,7 @@
   position: relative;
 
   display: grid;
-  grid-template-columns: 94px 1fr 32px;
+  grid-template-columns: 110px 1fr;
   align-items: center;
 
   inline-size: 470px;
@@ -17,21 +17,21 @@
 
 .amount {
   block-size: 100%;
-  padding: 0 14px;
+  padding: 0 0 0 20px;
 
   background: #fff;
   border: 0;
   outline: none;
 
   color: #2f3135;
-  font-size: 16px;
+  font-size: 22px;
 
-  border-inline-end: 1px solid #d9dde3;
+  border-inline-end: none;
 }
 
 .currency {
   block-size: 100%;
-  padding: 0 42px 0 16px;
+  padding: 0 0 0 30px;
 
   appearance: none;
   background: #fff;
@@ -39,15 +39,19 @@
   outline: none;
 
   color: #2f3135;
-  font-size: 16px;
+  font-size: 22px;
+
+  cursor: pointer;
+
+  border-inline-start: 1px solid #d9dde3;
 }
 
 .chevron {
   position: absolute;
-  inset-inline-end: 12px;
+  inset-inline-end: 14px;
 
   color: #7f7f7f;
-  font-size: 14px;
+  font-size: 10px;
 
   pointer-events: none;
 }

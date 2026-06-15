@@ -5,7 +5,10 @@ type CurrencyInfoBlockProps = {
   description: string;
 };
 
-export const CurrencyInfoBlock = ({ title, description }: CurrencyInfoBlockProps) => {
+export const CurrencyInfoBlock = ({
+  title,
+  description
+}: CurrencyInfoBlockProps) => {
   return (
     <article className={styles.block}>
       <h3 className={styles.title}>{title}</h3>

@@ -12,11 +12,11 @@
     "lint": "run-s lint:*",
     "lint:eslint": "eslint src --config config/eslint.config.js",
     "lint:stylelint": "stylelint \"src/**/*.scss\" --config config/.stylelintrc.js",
-    "lint-fix": "run-s lint-fix:*",
-    "lint-fix:eslint": "npm run lint:eslint -- --fix",
-    "lint-fix:stylelint": "npm run lint:stylelint -- --fix",
+    "lint-fix": "run-s lint-fix:eslint lint-fix:stylelint",
+    "lint-fix:eslint": "eslint src --config config/eslint.config.js --fix",
+    "lint-fix:stylelint": "stylelint \"src/**/*.scss\" --config config/.stylelintrc.js --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,html,css,scss,json}\"",
-    "lint-fix:all": "npm run lint-fix && npm run format"
+    "lint-fix-all": "run-s lint-fix format"
   },
   "dependencies": {
     "react": "^19.2.6",

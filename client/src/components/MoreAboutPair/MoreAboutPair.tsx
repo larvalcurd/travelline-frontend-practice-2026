@@ -9,13 +9,16 @@ type MoreAboutPairProps = {
   infoBlocks: CurrencyInfo[];
 };
 
-export const MoreAboutPair = ({ pairLabel, infoBlocks }: MoreAboutPairProps) => {
+export const MoreAboutPair = ({
+  pairLabel,
+  infoBlocks
+}: MoreAboutPairProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <section className={styles['more-about']}>
       <RateDivider
-        label={`More about ${pairLabel}`}
+        label={`${pairLabel}: about`}
         isOpen={isOpen}
         onClick={() => setIsOpen((prev) => !prev)}
       />
