@@ -1,5 +1,5 @@
 import { CurrencyConverterPage } from '../pages/CurrencyConverterPage/CurrencyConverterPage';
 
-export default function App() {
+export const App = () => {
   return <CurrencyConverterPage />;
-}
+};

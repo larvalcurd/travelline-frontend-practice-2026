@@ -4,16 +4,16 @@ import { CurrencyInfoBlock } from '../CurrencyInfoBlock/CurrencyInfoBlock';
 import { useState } from 'react';
 import { RateDivider } from '../RateDivider/RateDivider';
 
-type Props = {
+type MoreAboutPairProps = {
   pairLabel: string;
   infoBlocks: CurrencyInfo[];
 };
 
-export function MoreAboutPair({ pairLabel, infoBlocks }: Props) {
+export const MoreAboutPair = ({ pairLabel, infoBlocks }: MoreAboutPairProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <section className={styles.moreAbout}>
+    <section className={styles['more-about']}>
       <RateDivider
         label={`More about ${pairLabel}`}
         isOpen={isOpen}
@@ -39,4 +39,4 @@ export function MoreAboutPair({ pairLabel, infoBlocks }: Props) {
       )}
     </section>
   );
-}
+};

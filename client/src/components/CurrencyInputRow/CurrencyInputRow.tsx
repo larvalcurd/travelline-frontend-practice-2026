@@ -1,7 +1,7 @@
 import type { CurrencyOption } from '../../shared/types/currency';
 import styles from './CurrencyInputRow.module.scss';
 
-type Props = {
+type CurrencyInputRowProps = {
   amount: string;
   currencyCode: string;
   options: CurrencyOption[];
@@ -10,14 +10,14 @@ type Props = {
   onCurrencyChange?: (code: string) => void;
 };
 
-export function CurrencyInputRow({
+export const CurrencyInputRow = ({
   amount,
   currencyCode,
   options,
   readOnly = false,
   onAmountChange,
   onCurrencyChange
-}: Props) {
+}: CurrencyInputRowProps) => {
   return (
     <div className={styles.row}>
       <input
@@ -46,4 +46,4 @@ export function CurrencyInputRow({
       </span>
     </div>
   );
-}
+};

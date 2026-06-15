@@ -26,10 +26,18 @@ describe('MoreAboutPair', () => {
       screen.getByRole('button', { name: /more about pln\/jpy/i })
     ).toBeInTheDocument();
 
-    expect(screen.queryByText('Polish Zloty - PLN - zł')).not.toBeInTheDocument();
-    expect(screen.queryByText('Official currency of Poland')).not.toBeInTheDocument();
-    expect(screen.queryByText('Japanese Yen - JPY - ¥')).not.toBeInTheDocument();
-    expect(screen.queryByText('Official currency of Japan')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Polish Zloty - PLN - zł')
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Official currency of Poland')
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Japanese Yen - JPY - ¥')
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Official currency of Japan')
+    ).not.toBeInTheDocument();
   });
 
   it('shows currency titles and descriptions after click', () => {
@@ -59,8 +67,12 @@ describe('MoreAboutPair', () => {
     expect(screen.getByText('Polish Zloty - PLN - zł')).toBeInTheDocument();
 
     fireEvent.click(button);
-    expect(screen.queryByText('Polish Zloty - PLN - zł')).not.toBeInTheDocument();
-    expect(screen.queryByText('Official currency of Poland')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Polish Zloty - PLN - zł')
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Official currency of Poland')
+    ).not.toBeInTheDocument();
   });
 
   it('renders title without symbol if symbol is empty', () => {
@@ -82,9 +94,7 @@ describe('MoreAboutPair', () => {
     );
 
     expect(screen.getByText('US Dollar - USD')).toBeInTheDocument();
-    expect(
-      screen.queryByText('US Dollar - USD - ')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByText('US Dollar - USD - ')).not.toBeInTheDocument();
     expect(
       screen.getByText('Currency of the United States')
     ).toBeInTheDocument();

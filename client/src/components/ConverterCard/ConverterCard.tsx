@@ -4,7 +4,7 @@ import { PairSummary } from '../PairSummary/PairSummary.tsx';
 import { CurrencyInputRow } from '../CurrencyInputRow/CurrencyInputRow.tsx';
 import { MoreAboutPair } from '../MoreAboutPair/MoreAboutPair.tsx';
 
-type Props = {
+type ConverterCardProps = {
   data: CurrencyConverterData;
   onAmountChange: (value: string) => void;
   onFromCurrencyChange: (code: string) => void;
@@ -12,13 +12,13 @@ type Props = {
   onSwap: () => void;
 };
 
-export function ConverterCard({
+export const ConverterCard = ({
   data,
   onAmountChange,
   onFromCurrencyChange,
   onToCurrencyChange,
   onSwap
-}: Props) {
+}: ConverterCardProps) => {
   return (
     <section className={styles.Card}>
       <PairSummary
@@ -56,4 +56,4 @@ export function ConverterCard({
       />
     </section>
   );
-}
+};

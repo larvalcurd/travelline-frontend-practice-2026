@@ -1,12 +1,12 @@
 import styles from './RateDivider.module.scss';
 
-type Props = {
+type RateDividerProps = {
   label: string;
   isOpen: boolean;
   onClick: () => void;
 };
 
-export function RateDivider({ label, isOpen, onClick }: Props) {
+export const RateDivider = ({ label, isOpen, onClick }: RateDividerProps) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.line} />
@@ -21,4 +21,4 @@ export function RateDivider({ label, isOpen, onClick }: Props) {
       </button>
     </div>
   );
-}
+};

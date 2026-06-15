@@ -1,12 +1,12 @@
-.moreAbout {
-  margin-top: 16px;
+.more-about {
+  margin-block-start: 16px;
 }
 
 .title {
+  block-size: 0;
   margin: 0 0 16px;
-  font-size: 0;
-  height: 0;
   overflow: hidden;
+  font-size: 0;
 }
 
 .blocks {
