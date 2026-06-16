@@ -23,7 +23,7 @@ describe('MoreAboutPair', () => {
     render(<MoreAboutPair pairLabel="PLN/JPY" infoBlocks={infoBlocks} />);
 
     expect(
-      screen.getByRole('button', { name: /more about pln\/jpy/i })
+      screen.getByRole('button', { name: /pln\/jpy: about/i })
     ).toBeInTheDocument();
 
     expect(
@@ -44,7 +44,7 @@ describe('MoreAboutPair', () => {
     render(<MoreAboutPair pairLabel="PLN/JPY" infoBlocks={infoBlocks} />);
 
     const button = screen.getByRole('button', {
-      name: /more about pln\/jpy/i
+      name: /pln\/jpy: about/i
     });
 
     fireEvent.click(button);
@@ -60,7 +60,7 @@ describe('MoreAboutPair', () => {
     render(<MoreAboutPair pairLabel="PLN/JPY" infoBlocks={infoBlocks} />);
 
     const button = screen.getByRole('button', {
-      name: /more about pln\/jpy/i
+      name: /pln\/jpy: about/i
     });
 
     fireEvent.click(button);
@@ -89,9 +89,7 @@ describe('MoreAboutPair', () => {
       <MoreAboutPair pairLabel="USD/EUR" infoBlocks={blocksWithoutSymbol} />
     );
 
-    fireEvent.click(
-      screen.getByRole('button', { name: /more about usd\/eur/i })
-    );
+    fireEvent.click(screen.getByRole('button', { name: /usd\/eur: about/i }));
 
     expect(screen.getByText('US Dollar - USD')).toBeInTheDocument();
     expect(screen.queryByText('US Dollar - USD - ')).not.toBeInTheDocument();

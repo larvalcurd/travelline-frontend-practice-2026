@@ -106,7 +106,7 @@ it('resets MoreAboutPair open state when currency pair changes', async () => {
   render(<CurrencyConverterPage />);
 
   const toggleButton = screen.getByRole('button', {
-    name: /more about pln\/jpy/i
+    name: /pln\/jpy: about/i
   });
   await user.click(toggleButton);
 
@@ -124,7 +124,7 @@ it('resets MoreAboutPair open state when currency pair changes', async () => {
 
   expect(
     screen.getByRole('button', {
-      name: new RegExp(`more about ${newFrom}/jpy`, 'i')
+      name: new RegExp(`${newFrom}/jpy: about`, 'i')
     })
   ).toBeInTheDocument();
   expect(screen.queryByText(plnDescription)).not.toBeInTheDocument();
