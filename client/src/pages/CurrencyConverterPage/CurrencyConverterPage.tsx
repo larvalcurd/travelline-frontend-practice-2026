@@ -66,7 +66,7 @@ export const CurrencyConverterPage = () => {
       updatedAt: currentRateData
         ? new Date(currentRateData.dateTime).toUTCString()
         : 'Unknown date',
-      pairLabel: `${fromCurrency}/${toCurrency}`, 
+      pairLabel: `${fromCurrency}/${toCurrency}`,
       topRow: {
         amount,
         currencyCode: fromCurrency,
@@ -90,7 +90,6 @@ export const CurrencyConverterPage = () => {
     currencyOptions,
     infoBlocks
   ]);
-
 
   if (isLoading && currencies.length === 0) {
     return (

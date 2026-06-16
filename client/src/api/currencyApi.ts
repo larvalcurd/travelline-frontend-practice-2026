@@ -1,12 +1,13 @@
 import type { CurrencyDto } from './dto/CurrencyDto';
 import type { PriceChangeDto } from './dto/PriceChangeDto';
 
-export const BASE_URL = 'https://sturdy-fortnight-x7pgwvvwpxvhvwpq-5081.app.github.dev';
+export const BASE_URL =
+  'https://sturdy-fortnight-x7pgwvvwpxvhvwpq-5081.app.github.dev';
 
 const DAY_IN_MILLISECONDS = 86400000;
 
 export async function fetchCurrencies(): Promise<CurrencyDto[]> {
-  const url = new URL('Currency', BASE_URL).toString(); 
+  const url = new URL('Currency', BASE_URL).toString();
   const response = await fetch(url);
 
   if (!response.ok) {

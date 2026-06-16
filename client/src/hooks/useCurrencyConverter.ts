@@ -51,7 +51,12 @@ export function useCurrencyConverter() {
   const handleFromCurrencyChange = (code: string) => {
     if (code === state.toCurrency) {
       const fallback =
-        state.currencies.find((c) => c.code !== code)?.code ?? '';
+        state.currencies.find(
+          (c) => c.code !== code && c.code !== state.toCurrency
+        )?.code ??
+        state.currencies.find((c) => c.code !== code)?.code ??
+        '';
+
       dispatch({ type: 'SET_TO_CURRENCY', payload: fallback });
     }
     dispatch({ type: 'SET_FROM_CURRENCY', payload: code });
@@ -60,7 +65,12 @@ export function useCurrencyConverter() {
   const handleToCurrencyChange = (code: string) => {
     if (code === state.fromCurrency) {
       const fallback =
-        state.currencies.find((c) => c.code !== code)?.code ?? '';
+        state.currencies.find(
+          (c) => c.code !== code && c.code !== state.toCurrency
+        )?.code ??
+        state.currencies.find((c) => c.code !== code)?.code ??
+        '';
+
       dispatch({ type: 'SET_FROM_CURRENCY', payload: fallback });
     }
     dispatch({ type: 'SET_TO_CURRENCY', payload: code });
