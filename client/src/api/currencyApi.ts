@@ -1,10 +1,13 @@
-import type { CurrencyDto } from "./dto/CurrencyDto";
-import type { PriceChangeDto } from "./dto/PriceChangeDto";
+import type { CurrencyDto } from './dto/CurrencyDto';
+import type { PriceChangeDto } from './dto/PriceChangeDto';
 
-export const BASE_URL = 'http://localhost:5081';
+export const BASE_URL = 'https://sturdy-fortnight-x7pgwvvwpxvhvwpq-5081.app.github.dev';
+
+const DAY_IN_MILLISECONDS = 86400000;
 
 export async function fetchCurrencies(): Promise<CurrencyDto[]> {
-  const response = await fetch(`${BASE_URL}/Currency`);
+  const url = new URL('Currency', BASE_URL).toString(); 
+  const response = await fetch(url);
 
   if (!response.ok) {
     throw new Error(`Failed to fetch currencies: ${response.status}`);
@@ -17,7 +20,7 @@ export async function fetchPriceChanges(
   paymentCurrency: string,
   purchasedCurrency: string
 ): Promise<PriceChangeDto[]> {
-  const fromDateTime = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+  const fromDateTime = new Date(Date.now() - DAY_IN_MILLISECONDS).toISOString();
 
   const url = new URL(`${BASE_URL}/prices`);
   url.searchParams.set('paymentCurrency', paymentCurrency);

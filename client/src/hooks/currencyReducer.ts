@@ -1,14 +1,14 @@
-import type { Currency } from "../models/Currency";
-import type { PriceChange } from "../models/PriceChange";
+import type { Currency } from '../models/Currency';
+import type { PriceChange } from '../models/PriceChange';
 
 export type CurrencyState = {
-    currencies: Currency[];
-    priceChanges: PriceChange[];
-    fromCurrency: string;
-    toCurrency: string;
-    amount: string;
-    isLoading: boolean;
-    error: string | null;
+  currencies: Currency[];
+  priceChanges: PriceChange[];
+  fromCurrency: string;
+  toCurrency: string;
+  amount: string;
+  isLoading: boolean;
+  error: string | null;
 };
 
 export type CurrencyAction =

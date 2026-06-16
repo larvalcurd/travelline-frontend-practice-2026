@@ -1,120 +1,118 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './CurrencyConverterPage.module.scss';
 import { ConverterCard } from '../../components/ConverterCard/ConverterCard';
-import { MOCK_CURRENCIES, MOCK_PRICE_CHANGES } from '../../mocks';
+import { useCurrencyConverter } from '../../hooks/useCurrencyConverter';
 import type {
   CurrencyConverterData,
   CurrencyOption
 } from '../../shared/types/currency';
 
 export const CurrencyConverterPage = () => {
-  const [fromCurrency, setFromCurrency] = useState(
-    () => MOCK_CURRENCIES.find((c) => c.code === 'PLN')!
-  );
-  const [toCurrency, setToCurrency] = useState(
-    () => MOCK_CURRENCIES.find((c) => c.code === 'JPY')!
-  );
-  const [amount, setAmount] = useState<string>('1');
+  const {
+    state,
+    result,
+    handleAmountChange,
+    handleFromCurrencyChange,
+    handleToCurrencyChange,
+    handleSwap
+  } = useCurrencyConverter();
+
+  const {
+    currencies,
+    priceChanges,
+    fromCurrency,
+    toCurrency,
+    amount,
+    isLoading,
+    error
+  } = state;
 
   const currencyOptions: CurrencyOption[] = useMemo(() => {
-    return MOCK_CURRENCIES.map((c) => ({
+    return currencies.map((c) => ({
       code: c.code,
       label: c.code
     }));
-  }, []);
+  }, [currencies]);
 
-  const handleFromCurrencyChange = (newFromCode: string) => {
-    const nextFrom = MOCK_CURRENCIES.find((c) => c.code === newFromCode)!;
-
-    if (newFromCode === toCurrency.code) {
-      const fallback = MOCK_CURRENCIES.find((c) => c.code !== newFromCode)!;
-      setToCurrency(fallback);
-    }
-    setFromCurrency(nextFrom);
-  };
-
-  const handleToCurrencyChange = (newToCode: string) => {
-    const nextTo = MOCK_CURRENCIES.find((c) => c.code === newToCode)!;
-
-    if (newToCode === fromCurrency.code) {
-      const fallback = MOCK_CURRENCIES.find((c) => c.code !== newToCode)!;
-      setFromCurrency(fallback);
-    }
-    setToCurrency(nextTo);
-  };
-
-  const handleSwap = () => {
-    setFromCurrency(toCurrency);
-    setToCurrency(fromCurrency);
-  };
+  const fromCurrencyData = currencies.find((c) => c.code === fromCurrency)!;
+  const toCurrencyData = currencies.find((c) => c.code === toCurrency)!;
 
   const currentRateData =
-    MOCK_PRICE_CHANGES[fromCurrency.code]?.[toCurrency.code];
-  const rate = currentRateData ? currentRateData.price : 0;
-
-  const normalizedAmount = amount.replace(',', '.');
-  const numAmount = Number(normalizedAmount);
-
-  const result =
-    Number.isNaN(numAmount) || numAmount < 0
-      ? '0.00'
-      : (numAmount * rate).toFixed(2);
+    priceChanges.length > 0 ? priceChanges[priceChanges.length - 1] : null;
 
   const fallbackDescription = 'No description available for this currency.';
 
   const infoBlocks = useMemo(() => {
     return [
       {
-        title: fromCurrency.name,
-        description: fromCurrency.description || fallbackDescription,
-        code: fromCurrency.code,
-        symbol: fromCurrency.symbol || 'x'
+        title: fromCurrencyData?.name || fromCurrency, // Предохранитель на случай загрузки
+        description: fromCurrencyData?.description || fallbackDescription,
+        code: fromCurrency,
+        symbol: fromCurrencyData?.symbol || ''
       },
       {
-        title: toCurrency.name,
-        description: toCurrency.description || fallbackDescription,
-        code: toCurrency.code,
-        symbol: toCurrency.symbol || ''
+        title: toCurrencyData?.name || toCurrency,
+        description: toCurrencyData?.description || fallbackDescription,
+        code: toCurrency,
+        symbol: toCurrencyData?.symbol || ''
       }
     ];
-  }, [fromCurrency, toCurrency]);
+  }, [fromCurrencyData, toCurrencyData, fromCurrency, toCurrency]);
 
   const uiData: CurrencyConverterData = useMemo(() => {
     return {
-      headline: `1 ${fromCurrency.name} is`,
-      result: `${rate} ${toCurrency.name}`,
+      headline: `1 ${fromCurrencyData?.name || fromCurrency} is`,
+      result: `${result} ${toCurrencyData?.name || toCurrency}`,
       updatedAt: currentRateData
         ? new Date(currentRateData.dateTime).toUTCString()
         : 'Unknown date',
-      pairLabel: `${fromCurrency.code}/${toCurrency.code}`,
+      pairLabel: `${fromCurrency}/${toCurrency}`, 
       topRow: {
-        amount: amount,
-        currencyCode: fromCurrency.code,
+        amount,
+        currencyCode: fromCurrency,
         options: currencyOptions
       },
       bottomRow: {
         amount: result,
-        currencyCode: toCurrency.code,
+        currencyCode: toCurrency,
         options: currencyOptions
       },
       infoBlocks
     };
   }, [
+    fromCurrencyData,
+    toCurrencyData,
     fromCurrency,
     toCurrency,
     amount,
     result,
     currentRateData,
     currencyOptions,
-    rate,
     infoBlocks
   ]);
+
+
+  if (isLoading && currencies.length === 0) {
+    return (
+      <main className={styles.page}>
+        <p>Loading...</p>
+      </main>
+    );
+  }
+
+  if (error && currencies.length === 0) {
+    return (
+      <main className={styles.page}>
+        <p>Server error: {error}</p>
+      </main>
+    );
+  }
 
   return (
     <main className={styles.page}>
       <ConverterCard
         data={uiData}
-        onAmountChange={setAmount}
+        onAmountChange={handleAmountChange}
         onFromCurrencyChange={handleFromCurrencyChange}
         onToCurrencyChange={handleToCurrencyChange}
         onSwap={handleSwap}
