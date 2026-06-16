@@ -27,6 +27,9 @@ export const CurrencyConverterPage = () => {
     error
   } = state;
 
+  const hasInitialLoadError = Boolean(error && currencies.length === 0);
+  const hasRuntimeError = Boolean(error && currencies.length > 0);
+
   const currencyOptions: CurrencyOption[] = useMemo(() => {
     return currencies.map((c) => ({
       code: c.code,
@@ -99,7 +102,7 @@ export const CurrencyConverterPage = () => {
     );
   }
 
-  if (error && currencies.length === 0) {
+  if (hasInitialLoadError) {
     return (
       <main className={styles.page}>
         <p>Server error: {error}</p>
@@ -109,6 +112,15 @@ export const CurrencyConverterPage = () => {
 
   return (
     <main className={styles.page}>
+      {hasRuntimeError && (
+        <div className={styles.toast} role="alert" aria-live="assertive">
+          <strong className={styles['toast-title']}>Server error</strong>
+          <span className={styles['toast-message']}>
+            We could not update the exchange rate. Please try again later.
+          </span>
+        </div>
+      )}
+
       <ConverterCard
         data={uiData}
         onAmountChange={handleAmountChange}

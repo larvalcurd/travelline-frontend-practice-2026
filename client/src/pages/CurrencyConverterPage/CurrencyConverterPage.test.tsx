@@ -399,6 +399,9 @@ describe('CurrencyConverterPage', () => {
     expect(toSelect.value).toBe('JPY');
     expect(editable.value).toBe('1');
     expect(readonly.value).toBe('0.00');
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      /we could not update the exchange rate/i
+    );
     expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
   });
 });
