@@ -20,7 +20,7 @@ const infoBlocks: CurrencyInfo[] = [
 ];
 
 describe('MoreAboutPair', () => {
-  var user: ReturnType<typeof userEvent.setup>;
+  let user: ReturnType<typeof userEvent.setup>;
 
   beforeEach(() => {
     user = userEvent.setup();
