@@ -11,36 +11,36 @@ function getCurrencySelects() {
 
 function getAmountInputs() {
   const inputs = screen.getAllByLabelText('Amount') as HTMLInputElement[];
-  const editable = inputs.find((input) => !input.readOnly)!;
-  const readonly = inputs.find((input) => input.readOnly)!;
-  return { editable, readonly };
+  const amountInput = inputs.find((input) => !input.readOnly)!;
+  const resultInput = inputs.find((input) => input.readOnly)!;
+  return { amountInput, resultInput };
 }
 
 it('renders initial state from mocks', () => {
   render(<CurrencyConverterPage />);
 
   const [fromSelect, toSelect] = getCurrencySelects();
-  const { editable, readonly } = getAmountInputs();
+  const { amountInput, resultInput } = getAmountInputs();
 
   expect(fromSelect.value).toBe('PLN');
   expect(toSelect.value).toBe('JPY');
-  expect(editable.value).toBe('1');
+  expect(amountInput.value).toBe('1');
 
   const rate = MOCK_PRICE_CHANGES['PLN']['JPY'].price;
-  expect(readonly.value).toBe((1 * rate).toFixed(2));
+  expect(resultInput.value).toBe(rate.toFixed(2));
 });
 
 it('recalculates result when amount changes', async () => {
   const user = userEvent.setup();
   render(<CurrencyConverterPage />);
 
-  const { editable, readonly } = getAmountInputs();
+  const { amountInput, resultInput } = getAmountInputs();
   const rate = MOCK_PRICE_CHANGES['PLN']['JPY'].price;
 
-  await user.clear(editable);
-  await user.type(editable, '2');
+  await user.clear(amountInput);
+  await user.type(amountInput, '2');
 
-  expect(readonly.value).toBe((2 * rate).toFixed(2));
+  expect(resultInput.value).toBe((2 * rate).toFixed(2));
 });
 
 it('recalculates result when currency pair changes', async () => {
@@ -48,7 +48,7 @@ it('recalculates result when currency pair changes', async () => {
   render(<CurrencyConverterPage />);
 
   const [fromSelect] = getCurrencySelects();
-  const { readonly } = getAmountInputs();
+  const { resultInput } = getAmountInputs();
 
   const newFrom = MOCK_CURRENCIES.find(
     (c) => c.code !== 'PLN' && c.code !== 'JPY'
@@ -57,7 +57,7 @@ it('recalculates result when currency pair changes', async () => {
   await user.selectOptions(fromSelect, newFrom);
 
   const rate = MOCK_PRICE_CHANGES[newFrom]?.['JPY']?.price ?? 0;
-  expect(readonly.value).toBe((1 * rate).toFixed(2));
+  expect(resultInput.value).toBe(rate.toFixed(2));
 });
 
 it('prevents same currency in both selects when changing to-currency', async () => {
@@ -92,13 +92,13 @@ it('swaps currencies and recalculates result', async () => {
   await user.click(swapButton);
 
   const [fromSelect, toSelect] = getCurrencySelects();
-  const { readonly } = getAmountInputs();
+  const { resultInput } = getAmountInputs();
 
   expect(fromSelect.value).toBe('JPY');
   expect(toSelect.value).toBe('PLN');
 
   const rate = MOCK_PRICE_CHANGES['JPY']['PLN'].price;
-  expect(readonly.value).toBe((1 * rate).toFixed(2));
+  expect(resultInput.value).toBe(rate.toFixed(2));
 });
 
 it('resets MoreAboutPair open state when currency pair changes', async () => {
