@@ -15,16 +15,14 @@ export const CurrencyConverterPage = () => {
 
   const handleFromCurrencyChange = (nextFrom: (typeof MOCK_CURRENCIES)[0]) => {
     if (nextFrom.code === toCurrency.code) {
-      const fallback = MOCK_CURRENCIES.find((c) => c.code !== nextFrom.code)!;
-      setToCurrency(fallback);
+      setToCurrency(fromCurrency);
     }
     setFromCurrency(nextFrom);
   };
 
   const handleToCurrencyChange = (nextTo: (typeof MOCK_CURRENCIES)[0]) => {
     if (nextTo.code === fromCurrency.code) {
-      const fallback = MOCK_CURRENCIES.find((c) => c.code !== nextTo.code)!;
-      setFromCurrency(fallback);
+      setFromCurrency(toCurrency);
     }
     setToCurrency(nextTo);
   };
