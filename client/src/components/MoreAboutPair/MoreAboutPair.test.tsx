@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, beforeEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MoreAboutPair } from './MoreAboutPair';
 import type { CurrencyInfo } from '../../shared/types/currency';
 
@@ -19,6 +20,12 @@ const infoBlocks: CurrencyInfo[] = [
 ];
 
 describe('MoreAboutPair', () => {
+  let user: ReturnType<typeof userEvent.setup>;
+
+  beforeEach(() => {
+    user = userEvent.setup();
+  });
+
   it('renders toggle button with pair label and is closed by default', () => {
     render(<MoreAboutPair pairLabel="PLN/JPY" infoBlocks={infoBlocks} />);
 
@@ -40,14 +47,14 @@ describe('MoreAboutPair', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('shows currency titles and descriptions after click', () => {
+  it('shows currency titles and descriptions after click', async () => {
     render(<MoreAboutPair pairLabel="PLN/JPY" infoBlocks={infoBlocks} />);
 
     const button = screen.getByRole('button', {
       name: /pln\/jpy: about/i
     });
 
-    fireEvent.click(button);
+    await user.click(button);
 
     expect(screen.getByText('Polish Zloty - PLN - zł')).toBeInTheDocument();
     expect(screen.getByText('Official currency of Poland')).toBeInTheDocument();
@@ -56,17 +63,17 @@ describe('MoreAboutPair', () => {
     expect(screen.getByText('Official currency of Japan')).toBeInTheDocument();
   });
 
-  it('hides content after second click', () => {
+  it('hides content after second click', async () => {
     render(<MoreAboutPair pairLabel="PLN/JPY" infoBlocks={infoBlocks} />);
 
     const button = screen.getByRole('button', {
       name: /pln\/jpy: about/i
     });
 
-    fireEvent.click(button);
+    await user.click(button);
     expect(screen.getByText('Polish Zloty - PLN - zł')).toBeInTheDocument();
 
-    fireEvent.click(button);
+    await user.click(button);
     expect(
       screen.queryByText('Polish Zloty - PLN - zł')
     ).not.toBeInTheDocument();
@@ -75,7 +82,7 @@ describe('MoreAboutPair', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('renders title without symbol if symbol is empty', () => {
+  it('renders title without symbol if symbol is empty', async () => {
     const blocksWithoutSymbol: CurrencyInfo[] = [
       {
         title: 'US Dollar',
@@ -89,7 +96,8 @@ describe('MoreAboutPair', () => {
       <MoreAboutPair pairLabel="USD/EUR" infoBlocks={blocksWithoutSymbol} />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /usd\/eur: about/i }));
+    const button = screen.getByRole('button', { name: /usd\/eur: about/i });
+    await user.click(button);
 
     expect(screen.getByText('US Dollar - USD')).toBeInTheDocument();
     expect(screen.queryByText('US Dollar - USD - ')).not.toBeInTheDocument();

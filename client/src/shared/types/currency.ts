@@ -14,11 +14,6 @@ export type PriceChange = {
 
 export type PriceChangesMock = Record<string, Record<string, PriceChange>>;
 
-export type CurrencyOption = {
-  code: string;
-  label: string;
-};
-
 export type CurrencyInfo = {
   title: string;
   code: string;
@@ -29,7 +24,7 @@ export type CurrencyInfo = {
 export type CurrencyRowData = {
   amount: string;
   currencyCode: string;
-  options: CurrencyOption[];
+  options: Currency[];
 };
 
 export type CurrencyConverterData = {

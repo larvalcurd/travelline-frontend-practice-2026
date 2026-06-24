@@ -3,42 +3,37 @@ import styles from './CurrencyConverterPage.module.scss';
 import { ConverterCard } from '../../components/ConverterCard/ConverterCard';
 import { useCurrencyConverter } from '../../hooks/useCurrencyConverter';
 import type {
-  CurrencyConverterData,
-  CurrencyOption
+  Currency,
+  CurrencyConverterData
 } from '../../shared/types/currency';
 
 export const CurrencyConverterPage = () => {
-  const {
-    state,
-    result,
-    handleAmountChange,
-    handleFromCurrencyChange,
-    handleToCurrencyChange,
-    handleSwap
-  } = useCurrencyConverter();
+  const [fromCurrency, setFromCurrency] = useState<Currency>(
+    () => MOCK_CURRENCIES[0]
+  );
+  const [toCurrency, setToCurrency] = useState<Currency>(
+    () => MOCK_CURRENCIES[1]
+  );
+  const [amount, setAmount] = useState<string>('1');
 
-  const {
-    currencies,
-    priceChanges,
-    fromCurrency,
-    toCurrency,
-    amount,
-    isLoading,
-    error
-  } = state;
+  const handleFromCurrencyChange = (nextFrom: Currency) => {
+    if (nextFrom.code === toCurrency.code) {
+      setToCurrency(fromCurrency);
+    }
+    setFromCurrency(nextFrom);
+  };
 
-  const hasInitialLoadError = Boolean(error && currencies.length === 0);
-  const hasRuntimeError = Boolean(error && currencies.length > 0);
+  const handleToCurrencyChange = (nextTo: Currency) => {
+    if (nextTo.code === fromCurrency.code) {
+      setFromCurrency(toCurrency);
+    }
+    setToCurrency(nextTo);
+  };
 
-  const currencyOptions: CurrencyOption[] = useMemo(() => {
-    return currencies.map((c) => ({
-      code: c.code,
-      label: c.code
-    }));
-  }, [currencies]);
-
-  const fromCurrencyData = currencies.find((c) => c.code === fromCurrency)!;
-  const toCurrencyData = currencies.find((c) => c.code === toCurrency)!;
+  const handleSwap = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+  };
 
   const currentRateData =
     priceChanges.length > 0 ? priceChanges[priceChanges.length - 1] : null;
@@ -71,14 +66,14 @@ export const CurrencyConverterPage = () => {
         : 'Unknown date',
       pairLabel: `${fromCurrency}/${toCurrency}`,
       topRow: {
-        amount,
-        currencyCode: fromCurrency,
-        options: currencyOptions
+        amount: amount,
+        currencyCode: fromCurrency.code,
+        options: MOCK_CURRENCIES
       },
       bottomRow: {
         amount: result,
-        currencyCode: toCurrency,
-        options: currencyOptions
+        currencyCode: toCurrency.code,
+        options: MOCK_CURRENCIES
       },
       infoBlocks
     };
@@ -90,7 +85,7 @@ export const CurrencyConverterPage = () => {
     amount,
     result,
     currentRateData,
-    currencyOptions,
+    rate,
     infoBlocks
   ]);
 

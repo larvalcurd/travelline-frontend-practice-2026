@@ -1,13 +1,13 @@
-import type { CurrencyOption } from '../../shared/types/currency';
+import type { Currency } from '../../shared/types/currency';
 import styles from './CurrencyInputRow.module.scss';
 
 type CurrencyInputRowProps = {
   amount: string;
   currencyCode: string;
-  options: CurrencyOption[];
+  options: Currency[];
   readOnly?: boolean;
   onAmountChange?: (value: string) => void;
-  onCurrencyChange?: (code: string) => void;
+  onCurrencyChange?: (currency: Currency) => void;
 };
 
 export const CurrencyInputRow = ({
@@ -18,6 +18,15 @@ export const CurrencyInputRow = ({
   onAmountChange,
   onCurrencyChange
 }: CurrencyInputRowProps) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedCode = e.target.value;
+    const targetCurrency = options.find((c) => c.code === selectedCode);
+
+    if (targetCurrency && onCurrencyChange) {
+      onCurrencyChange(targetCurrency);
+    }
+  };
+
   return (
     <div className={styles.row}>
       <input
@@ -31,12 +40,12 @@ export const CurrencyInputRow = ({
       <select
         className={styles.currency}
         value={currencyCode}
-        onChange={(e) => onCurrencyChange?.(e.target.value)}
+        onChange={handleSelectChange}
         aria-label="Currency"
       >
         {options.map((option) => (
           <option key={option.code} value={option.code}>
-            {option.label}
+            {option.code}
           </option>
         ))}
       </select>
