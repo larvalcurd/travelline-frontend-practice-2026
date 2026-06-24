@@ -2,25 +2,28 @@ import { useState, useMemo } from 'react';
 import styles from './CurrencyConverterPage.module.scss';
 import { ConverterCard } from '../../components/ConverterCard/ConverterCard';
 import { MOCK_CURRENCIES, MOCK_PRICE_CHANGES } from '../../mocks';
-import type { CurrencyConverterData } from '../../shared/types/currency';
+import type {
+  Currency,
+  CurrencyConverterData
+} from '../../shared/types/currency';
 
 export const CurrencyConverterPage = () => {
-  const [fromCurrency, setFromCurrency] = useState(
-    () => MOCK_CURRENCIES.find((c) => c.code === 'PLN')!
+  const [fromCurrency, setFromCurrency] = useState<Currency>(
+    () => MOCK_CURRENCIES[0]
   );
-  const [toCurrency, setToCurrency] = useState(
-    () => MOCK_CURRENCIES.find((c) => c.code === 'JPY')!
+  const [toCurrency, setToCurrency] = useState<Currency>(
+    () => MOCK_CURRENCIES[1]
   );
   const [amount, setAmount] = useState<string>('1');
 
-  const handleFromCurrencyChange = (nextFrom: (typeof MOCK_CURRENCIES)[0]) => {
+  const handleFromCurrencyChange = (nextFrom: Currency) => {
     if (nextFrom.code === toCurrency.code) {
       setToCurrency(fromCurrency);
     }
     setFromCurrency(nextFrom);
   };
 
-  const handleToCurrencyChange = (nextTo: (typeof MOCK_CURRENCIES)[0]) => {
+  const handleToCurrencyChange = (nextTo: Currency) => {
     if (nextTo.code === fromCurrency.code) {
       setFromCurrency(toCurrency);
     }
