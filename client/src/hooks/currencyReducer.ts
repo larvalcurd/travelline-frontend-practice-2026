@@ -54,7 +54,7 @@ export function currencyReducer(
       return { ...state, isLoading: false, error: action.payload };
 
     case 'FETCH_PRICES_START':
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: null, priceChanges: [] };
 
     case 'FETCH_PRICES_SUCCESS':
       return { ...state, isLoading: false, priceChanges: action.payload };

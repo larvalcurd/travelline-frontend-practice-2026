@@ -6,9 +6,9 @@ export const BASE_URL =
 
 const DAY_IN_MILLISECONDS = 86400000;
 
-export async function fetchCurrencies(): Promise<CurrencyDto[]> {
+export async function fetchCurrencies(signal?: AbortSignal): Promise<CurrencyDto[]> {
   const url = new URL('Currency', BASE_URL).toString();
-  const response = await fetch(url);
+  const response = await fetch(url, { signal });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch currencies: ${response.status}`);
@@ -19,7 +19,8 @@ export async function fetchCurrencies(): Promise<CurrencyDto[]> {
 
 export async function fetchPriceChanges(
   paymentCurrency: string,
-  purchasedCurrency: string
+  purchasedCurrency: string,
+  signal?: AbortSignal
 ): Promise<PriceChangeDto[]> {
   const fromDateTime = new Date(Date.now() - DAY_IN_MILLISECONDS).toISOString();
 
@@ -28,7 +29,7 @@ export async function fetchPriceChanges(
   url.searchParams.set('purchasedCurrency', purchasedCurrency);
   url.searchParams.set('fromDateTime', fromDateTime);
 
-  const response = await fetch(url.toString());
+  const response = await fetch(url.toString(), { signal });
 
   if (!response.ok) {
     throw new Error(`Failed to fetch prices: ${response.status}`);

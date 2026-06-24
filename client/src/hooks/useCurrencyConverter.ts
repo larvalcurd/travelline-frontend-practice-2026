@@ -8,6 +8,7 @@ export function useCurrencyConverter() {
   const [state, dispatch] = useReducer(currencyReducer, initialState);
 
   useEffect(() => {
+    const controller = new AbortController();
     dispatch({ type: 'FETCH_CURRENCIES_START' });
 
     fetchCurrencies()
@@ -16,14 +17,19 @@ export function useCurrencyConverter() {
         dispatch({ type: 'FETCH_CURRENCIES_SUCCESS', payload: currencies });
       })
       .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return;
+
         const message = err instanceof Error ? err.message : 'Unknown error';
         dispatch({ type: 'FETCH_CURRENCIES_ERROR', payload: message });
       });
+
+    return () => controller.abort();
   }, []);
 
   useEffect(() => {
     if (!state.fromCurrency || !state.toCurrency) return;
 
+    const controller = new AbortController();
     dispatch({ type: 'FETCH_PRICES_START' });
 
     fetchPriceChanges(state.fromCurrency, state.toCurrency)
@@ -32,9 +38,13 @@ export function useCurrencyConverter() {
         dispatch({ type: 'FETCH_PRICES_SUCCESS', payload: priceChanges });
       })
       .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return;
+
         const message = err instanceof Error ? err.message : 'Unknown error';
         dispatch({ type: 'FETCH_PRICES_ERROR', payload: message });
       });
+
+    return () => controller.abort();
   }, [state.fromCurrency, state.toCurrency]);
 
   const currentRate =
