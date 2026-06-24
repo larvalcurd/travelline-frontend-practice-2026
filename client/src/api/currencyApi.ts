@@ -2,7 +2,7 @@ import type { CurrencyDto } from './dto/CurrencyDto';
 import type { PriceChangeDto } from './dto/PriceChangeDto';
 
 export const BASE_URL =
-  'https://sturdy-fortnight-x7pgwvvwpxvhvwpq-5081.app.github.dev';
+  import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5081';
 
 const DAY_IN_MILLISECONDS = 86400000;
 
