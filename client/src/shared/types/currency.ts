@@ -1,16 +1,7 @@
-export type Currency = {
-  code: string;
-  name: string;
-  description: string;
-  symbol: string;
-};
+import type { Currency } from '../../models/Currency';
+import type { PriceChange } from '../../models/PriceChange';
 
-export type PriceChange = {
-  purchasedCurrencyCode: string;
-  paymentCurrencyCode: string;
-  price: number;
-  dateTime: string; // ISO 8601 string
-};
+export type { Currency, PriceChange };
 
 export type PriceChangesMock = Record<string, Record<string, PriceChange>>;
 
