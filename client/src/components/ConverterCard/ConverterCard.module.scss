@@ -1,0 +1,16 @@
+.card {
+  inline-size: min(100%, 980px);
+  block-size: auto;
+  padding: 28px 36px 34px;
+
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 18px 40px rgb(67 88 113 / 18%);
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+  justify-content: center;
+  margin-block-start: 22px;
+}

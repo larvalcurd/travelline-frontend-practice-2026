@@ -1,0 +1,72 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config config/vite.config.ts",
+    "build": "tsc -p config/tsconfig.app.json && vite build --config config/vite.config.ts",
+    "preview": "vite preview --config config/vite.config.ts",
+    "test": "vitest --config=config/vitest.config.ts",
+    "test:run": "vitest --config=config/vitest.config.ts --run",
+    "lint": "run-s lint:*",
+    "lint:eslint": "eslint src --config config/eslint.config.js",
+    "lint:stylelint": "stylelint \"src/**/*.scss\" --config config/.stylelintrc.js",
+    "lint-fix": "run-s lint-fix:eslint lint-fix:stylelint",
+    "lint-fix:eslint": "eslint src --config config/eslint.config.js --fix",
+    "lint-fix:stylelint": "stylelint \"src/**/*.scss\" --config config/.stylelintrc.js --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,html,css,scss,json}\"",
+    "lint-fix-all": "run-s lint-fix format",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "husky": "^9.1.7",
+    "jsdom": "^29.1.1",
+    "lint-staged": "^17.0.8",
+    "npm-run-all": "^4.1.5",
+    "prettier": "3.8.3",
+    "sass": "^1.100.0",
+    "stylelint": "^17.12.0",
+    "stylelint-config-css-modules": "^4.6.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "stylelint-order": "^8.1.1",
+    "stylelint-scss": "^7.1.1",
+    "stylelint-use-logical": "^2.1.3",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.60.0",
+    "vite": "^8.0.12",
+    "vitest": "^4.1.8"
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "eslint --config config/eslint.config.js --fix",
+      "prettier --write"
+    ],
+    "src/**/*.scss": [
+      "stylelint --config config/.stylelintrc.js --fix",
+      "prettier --write"
+    ],
+    "src/**/*.{html,css,json}": [
+      "prettier --write"
+    ]
+  }
+}

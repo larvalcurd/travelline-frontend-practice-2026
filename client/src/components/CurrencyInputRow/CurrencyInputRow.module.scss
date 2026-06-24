@@ -1,0 +1,57 @@
+.row {
+  position: relative;
+
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  align-items: center;
+
+  inline-size: 470px;
+  max-inline-size: 100%;
+  block-size: 44px;
+  overflow: hidden;
+
+  background: #fff;
+  border: 1px solid #d9dde3;
+  border-radius: 6px;
+}
+
+.amount {
+  block-size: 100%;
+  padding: 0 0 0 20px;
+
+  background: #fff;
+  border: 0;
+  outline: none;
+
+  color: #2f3135;
+  font-size: 22px;
+
+  border-inline-end: none;
+}
+
+.currency {
+  block-size: 100%;
+  padding: 0 0 0 30px;
+
+  appearance: none;
+  background: #fff;
+  border: 0;
+  outline: none;
+
+  color: #2f3135;
+  font-size: 22px;
+
+  cursor: pointer;
+
+  border-inline-start: 1px solid #d9dde3;
+}
+
+.chevron {
+  position: absolute;
+  inset-inline-end: 14px;
+
+  color: #7f7f7f;
+  font-size: 10px;
+
+  pointer-events: none;
+}

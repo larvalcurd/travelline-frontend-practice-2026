@@ -1,0 +1,14 @@
+html,
+body,
+#root {
+  box-sizing: border-box;
+  min-block-size: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

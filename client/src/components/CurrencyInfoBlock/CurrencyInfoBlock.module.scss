@@ -1,0 +1,28 @@
+.block {
+  display: grid;
+  gap: 6px;
+}
+
+.title {
+  margin: 0;
+
+  color: #000;
+  font-family: Inter, sans-serif;
+  font-size: 26.14px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.description {
+  margin: 0;
+
+  color: #767676;
+  font-family: Inter, sans-serif;
+  font-size: 21.24px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: 0;
+}

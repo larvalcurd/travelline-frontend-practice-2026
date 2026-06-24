@@ -1,0 +1,26 @@
+[
+  {
+    "code": "PLN",
+    "name": "Polish Zloty",
+    "symbol": "zł",
+    "description": "Official currency and legal tender of Poland. Subdivided into 100 groszy."
+  },
+  {
+    "code": "JPY",
+    "name": "Japanese Yen",
+    "symbol": "¥",
+    "description": "Official currency of Japan. Widely used as a reserve currency after USD and EUR."
+  },
+  {
+    "code": "USD",
+    "name": "US Dollar",
+    "symbol": "$",
+    "description": "The primary reserve currency of the global financial system."
+  },
+  {
+    "code": "EUR",
+    "name": "Euro",
+    "symbol": "€",
+    "description": "Official currency of the Eurozone, consisting of 20 European Union countries."
+  }
+]

@@ -1,0 +1,82 @@
+{
+  "PLN": {
+    "JPY": {
+      "purchasedCurrencyCode": "PLN",
+      "paymentCurrencyCode": "JPY",
+      "price": 38.45,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "USD": {
+      "purchasedCurrencyCode": "PLN",
+      "paymentCurrencyCode": "USD",
+      "price": 0.25,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "EUR": {
+      "purchasedCurrencyCode": "PLN",
+      "paymentCurrencyCode": "EUR",
+      "price": 0.23,
+      "dateTime": "2026-06-09T10:00:00Z"
+    }
+  },
+  "JPY": {
+    "PLN": {
+      "purchasedCurrencyCode": "JPY",
+      "paymentCurrencyCode": "PLN",
+      "price": 0.026,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "USD": {
+      "purchasedCurrencyCode": "JPY",
+      "paymentCurrencyCode": "USD",
+      "price": 0.0065,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "EUR": {
+      "purchasedCurrencyCode": "JPY",
+      "paymentCurrencyCode": "EUR",
+      "price": 0.006,
+      "dateTime": "2026-06-09T10:00:00Z"
+    }
+  },
+  "USD": {
+    "PLN": {
+      "purchasedCurrencyCode": "USD",
+      "paymentCurrencyCode": "PLN",
+      "price": 4.0,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "JPY": {
+      "purchasedCurrencyCode": "USD",
+      "paymentCurrencyCode": "JPY",
+      "price": 153.8,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "EUR": {
+      "purchasedCurrencyCode": "USD",
+      "paymentCurrencyCode": "EUR",
+      "price": 0.92,
+      "dateTime": "2026-06-09T10:00:00Z"
+    }
+  },
+  "EUR": {
+    "PLN": {
+      "purchasedCurrencyCode": "EUR",
+      "paymentCurrencyCode": "PLN",
+      "price": 4.35,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "JPY": {
+      "purchasedCurrencyCode": "EUR",
+      "paymentCurrencyCode": "JPY",
+      "price": 167.2,
+      "dateTime": "2026-06-09T10:00:00Z"
+    },
+    "USD": {
+      "purchasedCurrencyCode": "EUR",
+      "paymentCurrencyCode": "USD",
+      "price": 1.09,
+      "dateTime": "2026-06-09T10:00:00Z"
+    }
+  }
+}

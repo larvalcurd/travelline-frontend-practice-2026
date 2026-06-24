@@ -1,0 +1,25 @@
+.more-about {
+  margin-block-start: 16px;
+
+  button {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 22.06px;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+}
+
+.title {
+  block-size: 0;
+  margin: 0 0 16px;
+  overflow: hidden;
+  font-size: 0;
+}
+
+.blocks {
+  display: grid;
+  gap: 18px;
+}
