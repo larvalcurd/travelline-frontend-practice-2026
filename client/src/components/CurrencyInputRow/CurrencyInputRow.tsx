@@ -7,7 +7,7 @@ type CurrencyInputRowProps = {
   options: Currency[];
   readOnly?: boolean;
   onAmountChange?: (value: string) => void;
-  onCurrencyChange?: (currency: Currency) => void;
+  onCurrencyChange?: (code: string) => void;
 };
 
 export const CurrencyInputRow = ({
@@ -19,12 +19,7 @@ export const CurrencyInputRow = ({
   onCurrencyChange
 }: CurrencyInputRowProps) => {
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCode = e.target.value;
-    const targetCurrency = options.find((c) => c.code === selectedCode);
-
-    if (targetCurrency && onCurrencyChange) {
-      onCurrencyChange(targetCurrency);
-    }
+    onCurrencyChange?.(e.target.value);
   };
 
   return (
