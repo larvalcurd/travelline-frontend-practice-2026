@@ -148,7 +148,8 @@ describe('currencyReducer', () => {
     expect(result).toEqual({
       ...state,
       isLoading: true,
-      error: null
+      error: null,
+      priceChanges: []
     });
   });
 

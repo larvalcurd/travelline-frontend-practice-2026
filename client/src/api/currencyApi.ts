@@ -6,7 +6,9 @@ export const BASE_URL =
 
 const DAY_IN_MILLISECONDS = 86400000;
 
-export async function fetchCurrencies(signal?: AbortSignal): Promise<CurrencyDto[]> {
+export async function fetchCurrencies(
+  signal?: AbortSignal
+): Promise<CurrencyDto[]> {
   const url = new URL('Currency', BASE_URL).toString();
   const response = await fetch(url, { signal });
 
