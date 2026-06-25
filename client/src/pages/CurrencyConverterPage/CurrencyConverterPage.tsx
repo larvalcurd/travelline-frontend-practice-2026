@@ -27,8 +27,8 @@ export const CurrencyConverterPage = () => {
   const hasInitialLoadError = Boolean(error && currencies.length === 0);
   const hasRuntimeError = Boolean(error && currencies.length > 0);
 
-  const fromCurrencyData = currencies.find((c) => c.code === fromCurrency);
-  const toCurrencyData = currencies.find((c) => c.code === toCurrency);
+  const fromCode = fromCurrency?.code || '';
+  const toCode = toCurrency?.code || '';
 
   const currentRateData =
     priceChanges.length > 0 ? priceChanges[priceChanges.length - 1] : null;
@@ -38,45 +38,45 @@ export const CurrencyConverterPage = () => {
   const infoBlocks = useMemo(() => {
     return [
       {
-        title: fromCurrencyData?.name || fromCurrency, // Предохранитель на случай загрузки
-        description: fromCurrencyData?.description || fallbackDescription,
-        code: fromCurrency,
-        symbol: fromCurrencyData?.symbol || ''
+        title: fromCurrency?.name || fromCode || 'Loading...',
+        description: fromCurrency?.description || fallbackDescription,
+        code: fromCode,
+        symbol: fromCurrency?.symbol || ''
       },
       {
-        title: toCurrencyData?.name || toCurrency,
-        description: toCurrencyData?.description || fallbackDescription,
-        code: toCurrency,
-        symbol: toCurrencyData?.symbol || ''
+        title: toCurrency?.name || toCode || 'Loading...',
+        description: toCurrency?.description || fallbackDescription,
+        code: toCode,
+        symbol: toCurrency?.symbol || ''
       }
     ];
-  }, [fromCurrencyData, toCurrencyData, fromCurrency, toCurrency]);
+  }, [fromCurrency, toCurrency, fromCode, toCode]);
 
   const uiData: CurrencyConverterData = useMemo(() => {
     return {
-      headline: `1 ${fromCurrencyData?.name || fromCurrency} is`,
-      result: `${result} ${toCurrencyData?.name || toCurrency}`,
+      headline: `1 ${fromCurrency?.name || fromCode} is`,
+      result: `${result} ${toCurrency?.name || toCode}`,
       updatedAt: currentRateData
         ? new Date(currentRateData.dateTime).toUTCString()
         : 'Unknown date',
-      pairLabel: `${fromCurrency}/${toCurrency}`,
+      pairLabel: `${fromCode}/${toCode}`,
       topRow: {
         amount,
-        currencyCode: fromCurrency,
+        currencyCode: fromCode,
         options: currencies
       },
       bottomRow: {
         amount: result,
-        currencyCode: toCurrency,
+        currencyCode: toCode,
         options: currencies
       },
       infoBlocks
     };
   }, [
-    fromCurrencyData,
-    toCurrencyData,
     fromCurrency,
     toCurrency,
+    fromCode,
+    toCode,
     amount,
     result,
     currentRateData,

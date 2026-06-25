@@ -32,7 +32,7 @@ export function useCurrencyConverter() {
     const controller = new AbortController();
     dispatch({ type: 'FETCH_PRICES_START' });
 
-    fetchPriceChanges(state.fromCurrency, state.toCurrency)
+    fetchPriceChanges(state.fromCurrency.code, state.toCurrency.code)
       .then((dtos) => {
         const priceChanges = dtos.map(mapPriceChange);
         dispatch({ type: 'FETCH_PRICES_SUCCESS', payload: priceChanges });
@@ -45,7 +45,12 @@ export function useCurrencyConverter() {
       });
 
     return () => controller.abort();
-  }, [state.fromCurrency, state.toCurrency]);
+  }, [
+    state.fromCurrency?.code,
+    state.toCurrency?.code,
+    state.fromCurrency,
+    state.toCurrency
+  ]);
 
   const currentRate =
     state.priceChanges.length > 0
@@ -59,31 +64,30 @@ export function useCurrencyConverter() {
   })();
 
   const handleFromCurrencyChange = (code: string) => {
-    if (code === state.toCurrency) {
-      const fallback =
-        state.currencies.find(
-          (c) => c.code !== code && c.code !== state.toCurrency
-        )?.code ??
-        state.currencies.find((c) => c.code !== code)?.code ??
-        '';
+    const target = state.currencies.find((c) => c.code === code);
+    if (!target) return;
 
-      dispatch({ type: 'SET_TO_CURRENCY', payload: fallback });
+    if (code === state.toCurrency?.code) {
+      const fallback = state.fromCurrency;
+
+      if (fallback) dispatch({ type: 'SET_TO_CURRENCY', payload: fallback });
     }
-    dispatch({ type: 'SET_FROM_CURRENCY', payload: code });
+    dispatch({ type: 'SET_FROM_CURRENCY', payload: target });
   };
 
   const handleToCurrencyChange = (code: string) => {
-    if (code === state.fromCurrency) {
+    const target = state.currencies.find((c) => c.code === code);
+    if (!target) return;
+
+    if (code === state.fromCurrency?.code) {
       const fallback =
         state.currencies.find(
-          (c) => c.code !== code && c.code !== state.toCurrency
-        )?.code ??
-        state.currencies.find((c) => c.code !== code)?.code ??
-        '';
+          (c) => c.code !== code && c.code !== state.toCurrency?.code
+        ) ?? state.currencies.find((c) => c.code !== code);
 
-      dispatch({ type: 'SET_FROM_CURRENCY', payload: fallback });
+      if (fallback) dispatch({ type: 'SET_FROM_CURRENCY', payload: fallback });
     }
-    dispatch({ type: 'SET_TO_CURRENCY', payload: code });
+    dispatch({ type: 'SET_TO_CURRENCY', payload: target });
   };
 
   const handleSwap = () => {

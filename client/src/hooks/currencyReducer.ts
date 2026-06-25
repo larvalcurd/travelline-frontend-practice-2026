@@ -4,8 +4,8 @@ import type { PriceChange } from '../models/PriceChange';
 export type CurrencyState = {
   currencies: Currency[];
   priceChanges: PriceChange[];
-  fromCurrency: string;
-  toCurrency: string;
+  fromCurrency: Currency | undefined;
+  toCurrency: Currency | undefined;
   amount: string;
   isLoading: boolean;
   error: string | null;
@@ -18,16 +18,16 @@ export type CurrencyAction =
   | { type: 'FETCH_PRICES_START' }
   | { type: 'FETCH_PRICES_SUCCESS'; payload: PriceChange[] }
   | { type: 'FETCH_PRICES_ERROR'; payload: string }
-  | { type: 'SET_FROM_CURRENCY'; payload: string }
-  | { type: 'SET_TO_CURRENCY'; payload: string }
+  | { type: 'SET_FROM_CURRENCY'; payload: Currency }
+  | { type: 'SET_TO_CURRENCY'; payload: Currency }
   | { type: 'SET_AMOUNT'; payload: string }
   | { type: 'SWAP_CURRENCIES' };
 
 export const initialState: CurrencyState = {
   currencies: [],
   priceChanges: [],
-  fromCurrency: '',
-  toCurrency: '',
+  fromCurrency: undefined,
+  toCurrency: undefined,
   amount: '1',
   isLoading: false,
   error: null
@@ -46,8 +46,8 @@ export function currencyReducer(
         ...state,
         isLoading: false,
         currencies: action.payload,
-        fromCurrency: action.payload[0]?.code ?? '',
-        toCurrency: action.payload[1]?.code ?? ''
+        fromCurrency: action.payload[0],
+        toCurrency: action.payload[1]
       };
 
     case 'FETCH_CURRENCIES_ERROR':

@@ -73,8 +73,8 @@ describe('currencyReducer', () => {
       isLoading: true,
       error: 'Previous server error',
       currencies: [],
-      fromCurrency: '',
-      toCurrency: ''
+      fromCurrency: undefined,
+      toCurrency: undefined
     });
 
     const result = currencyReducer(state, {
@@ -86,8 +86,8 @@ describe('currencyReducer', () => {
       ...state,
       isLoading: false,
       currencies,
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY'
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1]
     });
   });
 
@@ -95,8 +95,8 @@ describe('currencyReducer', () => {
     const state = createState({
       isLoading: true,
       currencies: [],
-      fromCurrency: '',
-      toCurrency: ''
+      fromCurrency: undefined,
+      toCurrency: undefined
     });
 
     const result = currencyReducer(state, {
@@ -108,8 +108,8 @@ describe('currencyReducer', () => {
       ...state,
       isLoading: false,
       currencies: [],
-      fromCurrency: '',
-      toCurrency: ''
+      fromCurrency: undefined,
+      toCurrency: undefined
     });
   });
 
@@ -135,8 +135,8 @@ describe('currencyReducer', () => {
     const state = createState({
       currencies,
       priceChanges,
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY',
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1],
       isLoading: false,
       error: 'Previous prices error'
     });
@@ -157,8 +157,8 @@ describe('currencyReducer', () => {
     const state = createState({
       currencies,
       priceChanges: [],
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY',
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1],
       isLoading: true,
       error: 'Previous prices error'
     });
@@ -179,8 +179,8 @@ describe('currencyReducer', () => {
     const state = createState({
       currencies,
       priceChanges,
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY',
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1],
       isLoading: true,
       error: null
     });
@@ -200,36 +200,36 @@ describe('currencyReducer', () => {
   it('handles SET_FROM_CURRENCY by updating source currency', () => {
     const state = createState({
       currencies,
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY'
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1]
     });
 
     const result = currencyReducer(state, {
       type: 'SET_FROM_CURRENCY',
-      payload: 'CAD'
+      payload: currencies[2]
     });
 
     expect(result).toEqual({
       ...state,
-      fromCurrency: 'CAD'
+      fromCurrency: currencies[2]
     });
   });
 
   it('handles SET_TO_CURRENCY by updating target currency', () => {
     const state = createState({
       currencies,
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY'
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1]
     });
 
     const result = currencyReducer(state, {
       type: 'SET_TO_CURRENCY',
-      payload: 'CAD'
+      payload: currencies[2]
     });
 
     expect(result).toEqual({
       ...state,
-      toCurrency: 'CAD'
+      toCurrency: currencies[2]
     });
   });
 
@@ -251,8 +251,8 @@ describe('currencyReducer', () => {
 
   it('handles SWAP_CURRENCIES by swapping selected currencies', () => {
     const state = createState({
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY'
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1]
     });
 
     const result = currencyReducer(state, {
@@ -261,8 +261,8 @@ describe('currencyReducer', () => {
 
     expect(result).toEqual({
       ...state,
-      fromCurrency: 'JPY',
-      toCurrency: 'PLN'
+      fromCurrency: currencies[1],
+      toCurrency: currencies[0]
     });
   });
 
@@ -270,8 +270,8 @@ describe('currencyReducer', () => {
     const state = createState({
       currencies,
       priceChanges,
-      fromCurrency: 'PLN',
-      toCurrency: 'JPY',
+      fromCurrency: currencies[0],
+      toCurrency: currencies[1],
       amount: '1',
       isLoading: false,
       error: null
