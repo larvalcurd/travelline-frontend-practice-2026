@@ -1,7 +1,7 @@
 import type {
   Currency,
   CurrencyConverterData
-} from '../../shared/types/currency.tsx';
+} from '../../shared/types/currency.ts';
 import styles from './ConverterCard.module.scss';
 import { PairSummary } from '../PairSummary/PairSummary.tsx';
 import { CurrencyInputRow } from '../CurrencyInputRow/CurrencyInputRow.tsx';

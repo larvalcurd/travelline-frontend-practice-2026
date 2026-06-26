@@ -19,11 +19,9 @@ export const CurrencyInputRow = ({
   onCurrencyChange
 }: CurrencyInputRowProps) => {
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCode = e.target.value;
-    const targetCurrency = options.find((c) => c.code === selectedCode);
-
-    if (targetCurrency && onCurrencyChange) {
-      onCurrencyChange(targetCurrency);
+    const targetCurrency = options.find((c) => c.code === e.target.value);
+    if (targetCurrency) {
+      onCurrencyChange?.(targetCurrency);
     }
   };
 
