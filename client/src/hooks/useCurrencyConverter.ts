@@ -3,6 +3,7 @@ import { currencyReducer, initialState } from './currencyReducer';
 import { fetchCurrencies, fetchPriceChanges } from '../api/currencyApi';
 import { mapCurrency } from '../api/mappers/mapCurrency';
 import { mapPriceChange } from '../api/mappers/mapPriceChange';
+import type { Currency } from '../shared/types/currency';
 
 export function useCurrencyConverter() {
   const [state, dispatch] = useReducer(currencyReducer, initialState);
@@ -63,27 +64,20 @@ export function useCurrencyConverter() {
     return (num * currentRate).toFixed(2);
   })();
 
-  const handleFromCurrencyChange = (code: string) => {
-    const target = state.currencies.find((c) => c.code === code);
-    if (!target) return;
-
-    if (code === state.toCurrency?.code) {
+  const handleFromCurrencyChange = (target: Currency) => {
+    if (target.code === state.toCurrency?.code) {
       const fallback = state.fromCurrency;
-
       if (fallback) dispatch({ type: 'SET_TO_CURRENCY', payload: fallback });
     }
     dispatch({ type: 'SET_FROM_CURRENCY', payload: target });
   };
 
-  const handleToCurrencyChange = (code: string) => {
-    const target = state.currencies.find((c) => c.code === code);
-    if (!target) return;
-
-    if (code === state.fromCurrency?.code) {
+  const handleToCurrencyChange = (target: Currency) => {
+    if (target.code === state.fromCurrency?.code) {
       const fallback =
         state.currencies.find(
-          (c) => c.code !== code && c.code !== state.toCurrency?.code
-        ) ?? state.currencies.find((c) => c.code !== code);
+          (c) => c.code !== target.code && c.code !== state.toCurrency?.code
+        ) ?? state.currencies.find((c) => c.code !== target.code);
 
       if (fallback) dispatch({ type: 'SET_FROM_CURRENCY', payload: fallback });
     }

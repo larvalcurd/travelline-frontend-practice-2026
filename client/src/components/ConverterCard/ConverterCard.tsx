@@ -1,4 +1,7 @@
-import type { CurrencyConverterData } from '../../shared/types/currency.ts';
+import type {
+  Currency,
+  CurrencyConverterData
+} from '../../shared/types/currency.ts';
 import styles from './ConverterCard.module.scss';
 import { PairSummary } from '../PairSummary/PairSummary.tsx';
 import { CurrencyInputRow } from '../CurrencyInputRow/CurrencyInputRow.tsx';
@@ -7,8 +10,8 @@ import { MoreAboutPair } from '../MoreAboutPair/MoreAboutPair.tsx';
 type ConverterCardProps = {
   data: CurrencyConverterData;
   onAmountChange: (value: string) => void;
-  onFromCurrencyChange: (code: string) => void;
-  onToCurrencyChange: (code: string) => void;
+  onFromCurrencyChange: (currency: Currency) => void;
+  onToCurrencyChange: (currency: Currency) => void;
   onSwap: () => void;
 };
 
