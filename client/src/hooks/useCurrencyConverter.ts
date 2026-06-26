@@ -12,17 +12,20 @@ export function useCurrencyConverter() {
     const controller = new AbortController();
     dispatch({ type: 'FETCH_CURRENCIES_START' });
 
-    fetchCurrencies()
-      .then((dtos) => {
+    const loadCurrencies = async () => {
+      try {
+        const dtos = await fetchCurrencies(controller.signal);
         const currencies = dtos.map(mapCurrency);
         dispatch({ type: 'FETCH_CURRENCIES_SUCCESS', payload: currencies });
-      })
-      .catch((err: unknown) => {
-        if (err instanceof Error && err.name === 'AbortError') return;
+      } catch (err: unknown) {
+        if (err instanceof DOMException && err.name === 'AbortError') return;
 
         const message = err instanceof Error ? err.message : 'Unknown error';
         dispatch({ type: 'FETCH_CURRENCIES_ERROR', payload: message });
-      });
+      }
+    };
+
+    loadCurrencies();
 
     return () => controller.abort();
   }, []);
@@ -33,17 +36,24 @@ export function useCurrencyConverter() {
     const controller = new AbortController();
     dispatch({ type: 'FETCH_PRICES_START' });
 
-    fetchPriceChanges(state.fromCurrency.code, state.toCurrency.code)
-      .then((dtos) => {
+    const loadPrices = async () => {
+      try {
+        const dtos = await fetchPriceChanges(
+          state.fromCurrency!.code,
+          state.toCurrency!.code,
+          controller.signal
+        );
         const priceChanges = dtos.map(mapPriceChange);
         dispatch({ type: 'FETCH_PRICES_SUCCESS', payload: priceChanges });
-      })
-      .catch((err: unknown) => {
+      } catch (err: unknown) {
         if (err instanceof Error && err.name === 'AbortError') return;
 
-        const message = err instanceof Error ? err.message : 'Unknown error';
+        const message = err instanceof DOMException ? err.message : 'Unknown error';
         dispatch({ type: 'FETCH_PRICES_ERROR', payload: message });
-      });
+      }
+    };
+
+    loadPrices();
 
     return () => controller.abort();
   }, [
