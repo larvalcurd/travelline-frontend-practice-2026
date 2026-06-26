@@ -48,7 +48,8 @@ export function useCurrencyConverter() {
       } catch (err: unknown) {
         if (err instanceof Error && err.name === 'AbortError') return;
 
-        const message = err instanceof DOMException ? err.message : 'Unknown error';
+        const message =
+          err instanceof DOMException ? err.message : 'Unknown error';
         dispatch({ type: 'FETCH_PRICES_ERROR', payload: message });
       }
     };

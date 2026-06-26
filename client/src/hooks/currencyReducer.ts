@@ -8,7 +8,7 @@ export type CurrencyState = {
   toCurrency: Currency | undefined;
   amount: string;
   isLoading: boolean;
-  error: string | null;
+  error: string | undefined;
 };
 
 export type CurrencyAction =
@@ -30,7 +30,7 @@ export const initialState: CurrencyState = {
   toCurrency: undefined,
   amount: '1',
   isLoading: false,
-  error: null
+  error: undefined
 };
 
 export function currencyReducer(
@@ -39,7 +39,7 @@ export function currencyReducer(
 ): CurrencyState {
   switch (action.type) {
     case 'FETCH_CURRENCIES_START':
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true, error: undefined };
 
     case 'FETCH_CURRENCIES_SUCCESS':
       return {
@@ -54,7 +54,7 @@ export function currencyReducer(
       return { ...state, isLoading: false, error: action.payload };
 
     case 'FETCH_PRICES_START':
-      return { ...state, isLoading: true, error: null, priceChanges: [] };
+      return { ...state, isLoading: true, error: undefined, priceChanges: [] };
 
     case 'FETCH_PRICES_SUCCESS':
       return { ...state, isLoading: false, priceChanges: action.payload };

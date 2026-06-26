@@ -31,7 +31,7 @@ export const CurrencyConverterPage = () => {
   const toCode = toCurrency?.code || '';
 
   const currentRateData =
-    priceChanges.length > 0 ? priceChanges[priceChanges.length - 1] : null;
+    priceChanges.length > 0 ? priceChanges[priceChanges.length - 1] : undefined;
 
   const fallbackDescription = 'No description available for this currency.';
 

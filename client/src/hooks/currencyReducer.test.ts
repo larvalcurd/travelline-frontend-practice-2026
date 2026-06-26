@@ -64,7 +64,7 @@ describe('currencyReducer', () => {
     expect(result).toEqual({
       ...state,
       isLoading: true,
-      error: null
+      error: undefined
     });
   });
 
@@ -116,7 +116,7 @@ describe('currencyReducer', () => {
   it('handles FETCH_CURRENCIES_ERROR by disabling loading and saving error message', () => {
     const state = createState({
       isLoading: true,
-      error: null
+      error: undefined
     });
 
     const result = currencyReducer(state, {
@@ -148,7 +148,7 @@ describe('currencyReducer', () => {
     expect(result).toEqual({
       ...state,
       isLoading: true,
-      error: null,
+      error: undefined,
       priceChanges: []
     });
   });
@@ -182,7 +182,7 @@ describe('currencyReducer', () => {
       fromCurrency: currencies[0],
       toCurrency: currencies[1],
       isLoading: true,
-      error: null
+      error: undefined
     });
 
     const result = currencyReducer(state, {
@@ -274,7 +274,7 @@ describe('currencyReducer', () => {
       toCurrency: currencies[1],
       amount: '1',
       isLoading: false,
-      error: null
+      error: undefined
     });
 
     const result = currencyReducer(state, {
